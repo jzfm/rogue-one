@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Rogue\AreaCalculator\Area\Application\Repositories\TestRepository;
+use Rogue\AreaCalculator\Area\Application\Repositories\TestRepositoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->bindRepositories();
     }
 
     /**
@@ -24,5 +26,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+    }
+
+    private function bindRepositories(): void
+    {
+        $this->app->bind(
+            TestRepositoryInterface::class,
+            TestRepository::class
+        );
     }
 }

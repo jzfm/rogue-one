@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +13,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+/*Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
+
+Route::prefix('v1')->middleware('force.json')->group(
+    function () {
+        Route::get(
+            '/health',
+            [
+                'uses' => 'HealthController@check'
+            ]
+        );
+
+        Route::get(
+            '/area/{uuid}',
+            [
+                'uses' => 'Area\GetAreaController@getById'
+            ]
+        );
+
+        Route::post(
+            '/area',
+            [
+                'uses' => 'Area\CalculateAreaController@calculate'
+            ]
+        );
+    }
+);
